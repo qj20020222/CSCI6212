@@ -83,7 +83,7 @@ public class Proj2_testing {
 }
 
 
-class ARLSTComparator implements Comparator<ArrayList<Integer>> {
+class ARLSTComparator implements Comparator<ArrayList<Integer>> { //for heap sorting to ensure it's sorted by size
 
     @Override
     public int compare(ArrayList<Integer> a1, ArrayList<Integer>  a2) {
