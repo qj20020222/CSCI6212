@@ -38,7 +38,7 @@ public class Teleportation {
 		
 		int n = weight[0].length; 
 
-		int[][][] ret = new int[n][n][n]; 
+		//int[][][] ret = new int[n][n][n]; 
 		int[][][] d = new int[n][n][n]; 
 		int[] not_haunted = new int[n];
 
