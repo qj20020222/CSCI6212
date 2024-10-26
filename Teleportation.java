@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Random;
 
 public class Teleportation {
 
@@ -80,37 +81,42 @@ public class Teleportation {
 	public static void main(String[] args) {
 		//using 100000 as a stand in for infinity  
 		//FYI 3d arrays are of order k, i, j as opposed to i,k,j as in the textbook 
+		  long begin_time = System.nanoTime();
 		
-		//init array n*n
-		  int[][] weight_arr = { { 0, 4,100000,2,100000 }, 
-				  				 { 4, 0,2,100000,100000 }, 
-				  				 { 100000,2,0,1, 1 }, 
-				  				 {2,100000,1, 0, 6 }, 
-				  				 { 100000, 100000,1,6,0 } };
-		
-		  //for testing purposes/numerical results create diff size arrays and edit k.
+		  int k = 1; //max number of haunted galaxies to use feel free to change when testing
+	  
+		  int n = 10; //number of galaxies
 		  
-		  //setting n
-		  int n = weight_arr.length;
-		  int k = 1; //max number of haunted galaxies to use 
-		  
-		  int [] haunted_arr = new int[n]; //0s by default good for base case
-		  //int [] not_haunted_arr = new int[n];
-		  
-		  //setting haunted galaxies
-		  haunted_arr[2] = 1; 
-		  haunted_arr[1] = 1;
-		  
-		  //int[][][] ret = APSP(n,weight_arr,not_haunted_arr); testing all pairs shortest path
-		  
+	      Random rd = new Random(); // creating Random object
+	      int[][] weight_arr = new int[n][n];
+	      
+	      for (int i = 0; i < n; i++) {
+	    	  for (int j = 0; j < n; j++) {
+	    		  if(j==i) {
+	    			  weight_arr[i][j] = 0;
+	    		  }else if( rd.nextInt(10) % 4 == 0 && weight_arr[i][j] == 0 && weight_arr[j][i] == 0) { //semi random infinity values
+	    			  weight_arr[i][j] =  10000000; 
+	    			  weight_arr[j][i] = 10000000;
+	    	  	  }else if (weight_arr[i][j] == 0 && weight_arr[j][i] == 0){ //trying to not set a value that's already set
+	    			  int val = rd.nextInt(10);
+	    	  		  weight_arr[i][j] = val;
+	    			  weight_arr[j][i] = val;
+	    		  }
+	    	  }
+	      }
+	      int [] haunted_arr = new int [n];
+		  for(int i =0; i < n; i++) {
+			  haunted_arr[i] = rd.nextInt(2);
+		  }
+ 
+		 
 		  int[][] ret_t = teleport(k,weight_arr,haunted_arr); //returns final distance matrix that uses at most k haunted galaxies
+		  		  
+		  //System.out.println(Arrays.deepToString(ret_t)); //tele with at most k haunted galaxies
+		  long end_time = System.nanoTime();  
+		  long time = end_time-begin_time;
 		  
-		  //System.out.println(Arrays.deepToString(ret[n-1])); //apsp final
-
-		  
-		  System.out.println(Arrays.deepToString(ret_t)); //tele with at most k haunted galaxies
+		  System.out.println("Execution time (ns): "+time + "  When n is: " + n);
 	}
 
 }
-
-
